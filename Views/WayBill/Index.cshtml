@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "WayBill";
+}
+<style>
+
+        .e-grid .e-ejinputtext,
+        e-datepicker e-field e-js e-input valid,
+        .e-datewidget {
+                width: 100% !important;
+
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-truck"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                          title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div id="Grid"></div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+<!-- /.content-wrapper -->
+@section Styles{
+}
+@section Scripts{
+
+    <script type="text/javascript">
+        debugger
+        var dropData = @Html.Raw(Json.Serialize(ViewBag.DropDownlistRequests));
+
+        $(function () {
+
+            var dataManager = ej.DataManager({
+                url: "/api/WayBill/GetWayBill",
+                adaptor: new ej.WebApiAdaptor(),
+                offline: true
+            });
+
+            //var dataManagerDescription = ej.DataManager({
+            //    url: "/api/CourierDescription",
+            //    adaptor: new ej.WebApiAdaptor()
+            //});
+
+            var dataManagerDomestic = ej.DataManager({
+                url: "/api/CourierDestination",
+                adaptor: new ej.WebApiAdaptor()
+            });
+
+            var dataManagerByWayBill = ej.DataManager({
+                url: "/api/ByWayBill",
+                adaptor: new ej.WebApiAdaptor()
+            });
+
+            dataManager.ready.done(function (e) {
+
+                $("#Grid").ejGrid({
+                    dataSource: ej.DataManager({
+                        json: e.result,
+                        adaptor: new ej.remoteSaveAdaptor(),
+                        insertUrl: "/api/WayBill/Insert",
+                        updateUrl: "/api/WayBill/Update",
+                        removeUrl: "/api/WayBill/Remove",
+                    }),
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: ["add", "edit", "delete", "update", "cancel", "search", "printGrid"]
+                    },
+                    editSettings: {
+                        allowEditing: true,
+                        allowAdding: true,
+                        allowDeleting: true,
+                        showDeleteConfirmDialog: true,
+                        editMode: "dialog"
+                    },
+                    isResponsive: true,
+                    enableResponsiveRow: true,
+                    allowSorting: true,
+                    allowSearching: true,
+                    allowFiltering: true,
+                    filterSettings: {
+                        filterType: "excel",
+                        maxFilterChoices: 100,
+                        enableCaseSensitivity: false
+                    },
+                    allowPaging: true,
+                    pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
+                    columns: [
+                       // { headerText: 'Detail', template: "<a href='/SalesOrder/Detail/{{:SalesOrderId}}'>Detail</a>" },
+                        { field: "Id", headerText: 'Id', isPrimaryKey: true, isIdentity: true, visible: false },                     
+                        { field: "WaybillNumber", headerText: 'WayBill Number', validationRules: { required: true } },
+                        {
+                            field: "CourierId", headerText: "Courier Requests", validationRules: { required: true },dataSource: dropData,
+
+                            editTemplate: {
+
+                                create: function () {
+                                    debugger
+                                    return "<input>";
+
+                                },
+                                read: function (args) {
+                                    debugger
+                                    //var datastring = args.ejDropDownList("getSelectedValue");
+                                    //var data = eval('(' + datastring + ')');
+                                    //if (!data)
+                                    //    return {};
+
+                                    //return data;
+
+
+                                    var selvalue = [];
+                                    var selected = args.ejDropDownList("getSelectedValue").split(",");
+                                    for (i = 0; i < selected.length; i++)
+                                        selvalue.push(selected[i]);
+                                    return selvalue;
+                                },
+                                write: function (args) {
+                                    debugger
+                                    var val = ej.isNullOrUndefined(args.rowdata["CourierId"]) ? "" : args.rowdata["CourierId"];
+                                    args.element.ejDropDownList({
+                                        dataSource: args.column[2].dataSource,
+                                        fields: { text: "CourierNumber", value: "CourierId" },
+                                        showCheckbox: true,
+                                        allowMultiSelection: true,
+                                        width: "100%",
+                                        value: val
+
+                                    });
+                                },
+                            },
+                        },
+                        { field: "Date", headerText: 'Date', editType: "datepicker", format: "{0:MM/dd/yyyy}", validationRules: { required: true } },                      
+                        { field: "CourierDestinationId", headerText: 'Destination', foreignKeyField: "Id", foreignKeyValue: "Name", dataSource: dataManagerDomestic, validationRules: { required: true }},
+                        { field: "ByWayBillId", headerText: 'By', foreignKeyField: "Id", foreignKeyValue: "Name", dataSource: dataManagerByWayBill, validationRules: { required: true } },
+                        { field: "IsFully", headerText: 'Is Fully', type: "boolean", editType: "booleanedit" },
+
+                    ],
+                    queryCellInfo: "queryCellInfo",
+                    actionComplete: "complete",
+                });
+            });
+
+
+        });
+
+        function complete(args) {
+            if (args.requestType == 'beginedit') {
+                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
+            }
+            if (args.requestType == 'beginedit' || args.requestType == 'add') {
+                debugger
+                var selected = $('#GridCourierId').data('ejDropDownList');
+                var selectedValue = parseInt(selected.option('value'));
+                var selectedText = selected.option('text');
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/WayBill/ExpectedRequests',
+                    success: function (data) {
+                        debugger
+                        if (args.requestType == 'beginedit') {
+                            data.push({ 'CourierId': selectedValue, 'CourierNumber': selectedText });
+                        }
+
+                        $("#GridCourierId").ejDropDownList({
+                            dataSource: data,
+                            fields: { id: 'CourierId', text: 'CourierNumber', value: 'CourierId' },
+                            value: selectedValue
+                        });
+                    }
+                });
+
+            }
+        }
+
+    function queryCellInfo(args) {
+
+            
+            if (args.column.field == "CourierId") {
+                var field = args.column.field, merge = false; preds = [];
+                var txt = args.data.CourierId;
+
+                //create a query
+                var predicate = new ej.Predicate(field, "equal", ej.parseInt(txt[0]));
+                for (var tx = 1; tx < txt.length; tx++) {
+                    preds.push(new ej.Predicate(field, "equal", txt[tx]));
+                    merge = true;
+                }
+                if (merge) {
+                    preds.unshift(predicate);
+                    predicate = ej.Predicate.or(preds);
+                }
+                //filter the dataSource
+                var datas = ej.DataManager(args.column.dataSource).executeLocal(new ej.Query().where(predicate));
+                var str = "";
+                for (var s = 0; s < datas.length; s++) {
+                    str = s == 0 ? str.concat(datas[s].CourierNumber) : str.concat("," + datas[s].CourierNumber)
+                }
+                $(args.cell).text(str);
+            }
+        }
+
+
+   // args.element.ejDropDownList({ width: "100%", dataSource: dropData, fields: { text: "CourierNumber", value: "CourierId" }, showCheckbox: true, allowMultiSelection: true, selectedItems: args.rowdata !== undefined ? selIndex : "" });
+    </script>
+}

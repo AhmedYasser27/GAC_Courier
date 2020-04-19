@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject coderush.Data.ApplicationDbContext Context
+@{
+
+    ApplicationUser appUser = await UserManager.GetUserAsync(User);
+
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>@ViewData["Title"] - GAC Courier</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!--AdminLTE-->
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/adminlte/components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/adminlte/components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/adminlte/components/Ionicons/css/ionicons.min.css">
+    <!-- Pace style -->
+    <link rel="stylesheet" href="~/adminlte/plugins/pace/pace.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/adminlte/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="~/adminlte/dist/css/skins/_all-skins.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!--Snycfusion-->
+    <link href="~/content/ejthemes/bootstrap-theme/ej.web.all.min.css" rel="stylesheet" />
+    <link href="~/content/default-responsive.css" rel="stylesheet" />
+    <link href="~/content/ejthemes/responsive-css/ej.responsive.css" rel="stylesheet" />
+    <link href="~/content/ejthemes/responsive-css/ejgrid.responsive.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />*@
+    @*<link href="~/content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+    <link href="~/adminlte/components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/adminlte/components/datatables.net-bs/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+    <link href="~/content/DataTables/css/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+
+
+
+
+    <style>
+        .navbar-nav > .notifications-menu > .dropdown-menu {
+            width: 600px !important;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini">
+    <div class="wrapper">
+        @Html.Partial("_AdminlteMainHeader", appUser)
+        <!-- Left side column. contains the logo and sidebar -->
+        @Html.Partial("_AdminlteMainSidebar", appUser)
+        <!-- Content Wrapper. Contains page content -->
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        @Html.Partial("_AdminlteFooter")
+    </div>
+    <!-- ./wrapper -->
+    <!--AdminLTE-->
+    <!-- jQuery 3 -->
+    <script src="~/adminlte/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/adminlte/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="~/adminlte/components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/adminlte/components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/adminlte/dist/js/adminlte.min.js"></script>
+    <!-- PACE -->
+    <script src="~/adminlte/components/PACE/pace.min.js"></script>
+    <script src="~/adminlte/components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!--Syncfusion-->
+    <script src="~/scripts/jsrender.min.js"></script>
+    <script src="~/scripts/ej.web.all.min.js" type="text/javascript"></script>
+    <script src="~/scripts/properties.js" type="text/javascript"></script>
+    @*<script src="~/scripts/DataTables/jquery.dataTables.js"></script>
+        <script src="~/scripts/DataTables/dataTables.bootstrap.js"></script>*@
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/adminlte/components/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/adminlte/components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
+
+    <script src="~/js/bootbox.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('#datepicker').datepicker();
+            $.getJSON("/api/Notification", function (notification) {
+                if (notification.length == 0) {
+                    return;
+                }
+
+                $(".js-notification-count")
+                    .text(notification.length)
+                    .removeClass("hide");
+
+                $(".countnum")
+                    .text(notification.length);
+
+                //The Defualt UserName
+                //  var Username = notification[0].CourierRequest.User.UserName;
+                for (var x = 0; x < notification.length; x++) {
+
+
+
+                    var input = ''; // Set as empty string
+
+                    if (notification[x].Type === 1) {
+
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].CourierRequest.User.UserName + ' Has Add New Courier Request [' + notification[x].CourierRequest.CourierFM + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 2) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].CourierRequest.User.UserName + ' Has Update Courier Request [' + notification[x].CourierRequest.CourierFM + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+
+                    }
+                    else if (notification[x].Type === 3) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].CourierRequest.User.UserName + ' Has Delete Courier Request: [' + notification[x].CourierRequest.CourierFM + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 4) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].WayBill.User.UserName + ' Has Add New Way Bill [' + notification[x].WayBill.WaybillNumber + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 5) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].WayBill.User.UserName + ' Has Update Way Bill [' + notification[x].WayBill.WaybillNumber + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 6) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].WayBill.User.UserName + ' Has Delete Way Bill [' + notification[x].WayBill.WaybillNumber + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 7) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].Delivery.User.UserName + ' Has Add New Courier Statement [' + notification[x].Delivery.To + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else if (notification[x].Type === 8) {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].Delivery.User.UserName + ' Has Update Courier Statement [' + notification[x].Delivery.To + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+                    else {
+                        input = '<a href="#"><i class="fa fa-users text-aqua"></i>' + notification[x].Delivery.User.UserName + ' Has Delete Courier Statement [' + notification[x].Delivery.To + '] at ' + moment(notification[x].DateTime).format('DD/MM/YYYY') + '</a >';
+                    }
+
+
+                    $("#NewNotif").append('<li>' + input + '</li>');
+
+                }
+
+
+            });
+
+            /*  $("#ClearAllNotifications").click(function () {
+
+              });*/
+
+            $("#ClearAllNotifications").on("click", function (event) {
+                $.post("/api/Notification/MarkAsRead")
+                    .done(function () {
+                        $(".js-notification-count")
+                            .text("")
+                            .addClass("hide");
+                    });
+                $(this).off(event);
+            });
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+
+
+
+
+
+</body>
+</html>

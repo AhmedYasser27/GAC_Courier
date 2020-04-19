@@ -1,0 +1,62 @@
+﻿@using DevExpress.AspNetCore
+@model coderush.Models.CourierRequest
+<link href="~/node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/node_modules/devextreme/dist/css/dx.common.css" rel="stylesheet" />
+    <link href="~/node_modules/devextreme/dist/css/dx.light.css" rel="stylesheet" />
+    <link href="~/node_modules/@@devexpress/analytics-core/dist/css/dx-analytics.common.css" rel="stylesheet" />
+    <link href="~/node_modules/@@devexpress/analytics-core/dist/css/dx-analytics.light.css" rel="stylesheet" />
+    <link href="~/node_modules/devexpress-reporting/dist/css/dx-webdocumentviewer.css" rel="stylesheet" />
+
+    <!-- 3rd-party dependencies -->
+    <script src="~/node_modules/jquery/dist/jquery.js"></script>
+    <script src="~/node_modules/jquery-ui-dist/jquery-ui.js"></script>
+    <script src="~/node_modules/knockout/build/output/knockout-latest.js"></script>
+    <script src="~/node_modules/cldrjs/dist/cldr.js"></script>
+    <script src="~/node_modules/cldrjs/dist/cldr/event.js"></script>
+    <script src="~/node_modules/cldrjs/dist/cldr/supplemental.js"></script>
+    <script src="~/node_modules/cldrjs/dist/cldr/unresolved.js"></script>
+    <script src="~/node_modules/globalize/dist/globalize.js"></script>
+    <script src="~/node_modules/globalize/dist/globalize/message.js"></script>
+    <script src="~/node_modules/globalize/dist/globalize/number.js"></script>
+    <script src="~/node_modules/globalize/dist/globalize/currency.js"></script>
+    <script src="~/node_modules/globalize/dist/globalize/date.js"></script>
+
+    <script src="~/node_modules/devextreme/dist/js/dx.all.js"></script>
+    <script src="~/node_modules/@@devexpress/analytics-core/dist/js/dx-analytics-core.min.js"></script>
+    <script src="~/node_modules/devexpress-reporting/dist/js/dx-webdocumentviewer.min.js"></script>
+
+   
+
+
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-truck"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                @(Html.DevExpress().WebDocumentViewer("WebDocumentViewer").Height("1000px"))
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>

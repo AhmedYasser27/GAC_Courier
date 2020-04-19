@@ -1,0 +1,97 @@
+﻿@model coderush.Models.CourierRequest
+<!-- Default box -->
+<div class="box">
+    <div class="box-body">
+
+        @using (Html.BeginForm("", "/api/Courier/Update", FormMethod.Post, new { id = "popupForm" }))
+        {
+            if (Model != null && Model.Id > 0)
+            {
+                @Html.HiddenFor(a => a.Id)
+            }
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Number#</label>
+                    @Html.TextBoxFor(a => a.CourierNumber, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(a => a.CourierNumber)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Courier FM</label>
+                    @Html.TextBoxFor(a => a.CourierFM, new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.CourierFM)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CourierDescriptionId)
+                    @Html.DropDownListFor(m => m.CourierDescriptionId, new SelectList(ViewBag.GetAllDescription, "Id", "Name"), "Select", new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(m => m.CourierDescription)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    @Html.TextBoxFor(a => a.Quantity, new { @class = "form-control", @type = "number", @min = "0", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.Quantity)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CourierSendTypeId)
+                    @Html.DropDownListFor(m => m.CourierSendTypeId, new SelectList(ViewBag.GetAllSendTyps, "Id", "Name"), "Select", new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(m => m.CourierSendTypeId)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CourierDestinationId)
+                    @Html.DropDownListFor(m => m.CourierDestinationId, new SelectList(ViewBag.GetAllDestinations, "Id", "Name"), "Select", new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(m => m.CourierDestinationId)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Reciver Name</label>
+                    @Html.TextBoxFor(a => a.ReciverName, new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.ReciverName)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Reciver Contact Person</label>
+                    @Html.TextBoxFor(a => a.ReciverContactPerson, new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.ReciverContactPerson)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Vessels Name</label>
+                    @Html.TextBoxFor(a => a.VesselsName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.VesselsName)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Job Number</label>
+                    @Html.TextBoxFor(a => a.JopPerson, new { @class = "form-control", @type = "number", @min = "0" })
+                    @Html.ValidationMessageFor(a => a.JopPerson)
+                </div>
+            </div>
+            <div class="col-md-12">
+               
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        }
+
+
+
+    </div>
+    <!-- /.box-body -->
+
+</div>
+<!-- /.box -->
+
+
+

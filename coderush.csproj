@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-coderush-10F86EC1-A7B9-40B3-A943-2C9C114B0BDE</UserSecretsId>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\Report\RequestReport.repx" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="19.1.6" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="19.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core" Version="17.4.0.46" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="17.4.0.55" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Controllers\Report\RequestReport.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controllers\Report\RequestReport.cs">
+      <DependentUpon>RequestReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Controllers\Report\RequestReport.Designer.cs">
+      <DependentUpon>RequestReport.repx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

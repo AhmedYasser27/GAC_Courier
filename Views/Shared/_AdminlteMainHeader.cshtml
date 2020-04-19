@@ -1,0 +1,84 @@
+﻿@model coderush.Models.ApplicationUser
+@inject coderush.Data.ApplicationDbContext Context
+
+@{
+    UserProfile profile = Context.UserProfile.SingleOrDefault(x => x.ApplicationUserId.Equals(Model.Id));
+}
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href="/" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>GAC</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>GAC</b>Courier</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+                @if (Model != null)
+                {
+                    if (Model.IsAdmin) {
+                    <li class="dropdown notifications-menu" id="ClearAllNotifications" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning js-notification-count hide"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have <span class="countnum"></span> notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu" id="NewNotif"></ul>
+                            </li>
+                            <li class="footer"><a href="@Url.Action("Index", "Notifications")">View all</a></li>
+                        </ul>
+                    </li>
+                    }
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="@profile.ProfilePicture" class="user-image profilePicture" alt="User Image">
+                            <span class="hidden-xs">@Model.Email</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="@profile.ProfilePicture" class="img-circle profilePicture" alt="User Image">
+                                <p>
+                                    @Model.Email
+                                </p>
+                            </li>
+
+                            <!-- Menu Footer-->
+
+                            <li class="user-footer">
+
+                                <div class="pull-left">
+                                    <a href="@Url.Action("UserProfile", "UserRole")" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-default btn-flat">Sign out</button>
+                                    </div>
+                                </form>
+
+                            </li>
+                        </ul>
+                    </li>
+
+                }
+
+
+
+
+            </ul>
+        </div>
+    </nav>
+</header>
+

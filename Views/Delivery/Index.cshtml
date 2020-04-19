@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "Courier Statement";
+}
+<style>
+    .e-grid .e-ejinputtext,
+    e-datepicker e-field e-js e-input valid,
+    .e-datewidget {
+        width: 100% !important;
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-truck"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div id="Grid"></div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+<!-- /.content-wrapper -->
+@section Styles{
+
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var dataManager = ej.DataManager({
+                url: "/api/Delivery",
+                adaptor: new ej.WebApiAdaptor(),
+                offline: true
+            });
+
+           
+            var dataManagerDomestic = ej.DataManager({
+                url: "/api/CourierDestination",
+                adaptor: new ej.WebApiAdaptor()
+            });
+
+            var dataManagerWayBill = ej.DataManager({
+                url: "/api/WayBill/GetWayBill",
+                adaptor: new ej.WebApiAdaptor()
+            });
+
+
+            dataManager.ready.done(function (e) {
+                $("#Grid").ejGrid({
+                    dataSource: ej.DataManager({
+                        json: e.result,
+                        adaptor: new ej.remoteSaveAdaptor(),
+                        insertUrl: "/api/Delivery/Insert",
+                        updateUrl: "/api/Delivery/Update",
+                        removeUrl: "/api/Delivery/Remove",
+                    }),
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: ["add", "edit", "delete", "update", "cancel", "search", "printGrid"]
+                    },
+                    editSettings: {
+                        allowEditing: true,
+                        allowAdding: true,
+                        allowDeleting: true,
+                        showDeleteConfirmDialog: true,
+                        editMode: "dialog"
+                    },
+                    isResponsive: true,
+                    enableResponsiveRow: true,
+                    allowSorting: true,
+                    allowSearching: true,
+                    allowFiltering: true,
+                    filterSettings: {
+                        filterType: "excel",
+                        maxFilterChoices: 100,
+                        enableCaseSensitivity: false
+                    },
+                    allowPaging: true,
+                    pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
+                    columns: [
+                       // { headerText: 'Detail', template: "<a href='/SalesOrder/Detail/{{:SalesOrderId}}'>Detail</a>" },
+                        { field: "Id", headerText: 'DeliveryId', isPrimaryKey: true, isIdentity: true, visible: false },
+                        { field: "WayBillId", headerText: 'Way Bill', foreignKeyField: "Id", foreignKeyValue: "WaybillNumber", dataSource: dataManagerWayBill, validationRules: { required: true } },
+                        { field: "Date", headerText: 'Date', editType: "datepicker", format: "{0:MM/dd/yyyy}", validationRules: { required: true } },
+                        { field: "From", headerText: 'From', validationRules: { required: true } },
+                        { field: "CourierDestinationId", headerText: 'Destination', foreignKeyField: "Id", foreignKeyValue: "Name", dataSource: dataManagerDomestic },
+                        { field: "To", headerText: 'To', validationRules: { required: true } },
+                        { field: "IsFullyDeliverd", headerText: 'Is Fully Received', type: "boolean", editType: "booleanedit" },
+                    ],
+                    actionComplete: "complete",
+                });
+            });
+
+
+        });
+
+        function complete(args) {
+            if (args.requestType == 'beginedit') {
+                $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
+            }
+        }
+
+
+
+    </script>
+}

@@ -1,0 +1,164 @@
+﻿@model List<coderush.Models.Notification>
+@{
+    ViewData["Title"] = "Notifications";
+    
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title text-primary"><i class="fa fa-certificate"></i> @ViewData["Title"]</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- The time line -->
+                        <ul class="timeline">
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-red">
+                                    Actions
+                                </span>
+                            </li>
+
+                            @foreach (var Notifi in Model)
+                            {
+                                if (Notifi.Type.Equals(coderush.Models.NotificationType.CourierRequestAdd))
+                                {
+                                    <li>
+                                        <i class="fa fa-plus bg-aqua"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.CourierRequest.User.UserName</a> Has Add New Courier Request <strong>@Notifi.CourierRequest.CourierNumber - @Notifi.CourierRequest.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.CourierRequestUpdate))
+                                {
+                                    <li>
+                                        <i class="fa fa-edit bg-yellow"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.CourierRequest.User.UserName</a> Has Update Courier Request<strong>@Notifi.CourierRequest.CourierNumber - @Notifi.CourierRequest.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.CourierRequestDelete))
+                                {
+                                    <li>
+                                        <i class="fa fa-trash bg-maroon"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.CourierRequest.User.UserName</a>Has Delete Courier Request<strong>@Notifi.CourierRequest.CourierNumber - @Notifi.CourierRequest.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.WayBillAdd))
+                                {
+                                    <li>
+                                        <i class="fa fa-plus bg-aqua"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.WayBill.User.UserName</a> Has Add New WayBill <strong>@Notifi.WayBill.WaybillNumber - @Notifi.WayBill.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.WayBillUpdate))
+                                {
+                                    <li>
+                                        <i class="fa fa-edit bg-yellow"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.WayBill.User.UserName</a> Has Update WayBill <strong>@Notifi.WayBill.WaybillNumber - @Notifi.WayBill.CourierDestination.Name</strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.WayBillDelete))
+                                {
+                                    <li>
+                                        <i class="fa fa-trash bg-maroon"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.WayBill.User.UserName</a>Has Delete WayBill <strong>@Notifi.WayBill.WaybillNumber - @Notifi.WayBill.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.DeliveryAdd))
+                                {
+                                    <li>
+                                        <i class="fa fa-plus bg-aqua"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.Delivery.User.UserName</a> Has Add New Delivery <strong>@Notifi.Delivery.Id - @Notifi.Delivery.CourierDestination.Name </strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.DeleiveryUpdate))
+                                {
+                                    <li>
+                                        <i class="fa fa-edit bg-yellow"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.Delivery.User.UserName</a> Has Update Delivery <strong>@Notifi.Delivery.Id - @Notifi.Delivery.CourierDestination.Name</strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Notifi.Type.Equals(coderush.Models.NotificationType.DeleiveryDelete))
+                                {
+                                    <li>
+                                        <i class="fa fa-trash bg-maroon"></i>
+
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i>    @Notifi.DateTime.ToString("MM/dd/yyyy HH:mm")</span>
+
+                                            <h3 class="timeline-header no-border"><a href="#">@Notifi.Delivery.User.UserName</a>Has Delete Delivery <strong>@Notifi.Delivery.Id - @Notifi.Delivery.CourierDestination.Name</strong></h3>
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+
+                        </ul>
+                    </div>
+                   
+                </div>
+            </div>
+         
+            <div class="box-footer">
+
+            </div>
+           
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+
