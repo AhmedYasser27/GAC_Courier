@@ -1,0 +1,68 @@
+============
+Advantages:
+============
+The following are the advantages of the proposed system:
+1-Easy to track the status of applications at any level at any point in time
+2-Can generate required reports easily
+3-The centralized database helps in avoiding conflicts and allow coordination between branches.
+4-Easy to use GUI that does not require specific training.
+5-Save time and Money.
+6-Easy to maintain data and search in it.
+7-Avoid more manual hours that need to spend in record data and generating reports.
+8-Easy to manage historical data in a secure manner.
+
+=====================================================================================================
+User types:
+===========
+1-Super Admin.
+2-Admin.
+3-Employee.
+======================================================================================================
+Cycle:
+=========
+Employee:
+=========
+1- Employee will login with a valid Account.
+2- Employee Can add a new Courier with all Details.
+3- logout.
+-------------------------------------------------------
+Admin:
+======
+1- Admin will login with an admin account.
+2- Add branches details.
+3- can view all Couriers with all details.
+4- can add-update-delete.
+5- can add new invoice for a specific courier.
+6- can generate reports at any time.
+7- can print any page in the proposed system.
+--------------------------------------------------------
+Super Admin:
+============
+1- Mange Users Accounts.
+2- Add roles.
+3- Change roles.
+========================================================================================================
+System Modules:
+================
+1-users & roles.
+2-Dashboards & charts.
+3-Config.
+=======================================================================================================
+Submodules:
+============
+1-User Info.
+2-Add Branches.
+3-Add Roles.
+4-Change Roles.
+5-Add Courier.
+6-Add Employees Accounts.
+7-Manage Consignments.
+8-Manage Employee.
+9-Searching/printing.
+10-Add invoice.
+11-Add reciver Details.
+12-Manage Delivery.
+13-Reporting.
+14-Login / Logout.
+  
+
